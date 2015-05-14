@@ -45,10 +45,10 @@ public class Asteroid
             }
         }
 
-        if (pp_collision(asteroid, x, y, GUI.playerShip.ship, p.mouseX- GUI.playerShip.ship.width / 2,p.mouseY - GUI.playerShip.ship.height / 2))
-        {
-            System.out.println("collision");
-        }
+        //if (pp_collision(asteroid, x, y, GUI.playerShip.ship, p.mouseX- GUI.playerShip.ship.width / 2,p.mouseY - GUI.playerShip.ship.height / 2))
+        //{
+        //    System.out.println("collision");
+        //}
     }
 
     // A pixel width an alpha level below this value is

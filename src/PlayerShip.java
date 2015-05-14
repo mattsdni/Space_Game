@@ -1,5 +1,9 @@
+import ddf.minim.AudioOutput;
+import ddf.minim.Minim;
+import ddf.minim.ugens.*;
 import processing.core.PApplet;
 import processing.core.PImage;
+
 
 /**
  * Created by Matt on 5/8/2015.
@@ -13,6 +17,8 @@ public class PlayerShip
     PImage thrusters[];
     int thrusterCycle;
     int laserCharge;
+    Minim minim;
+    AudioOutput out;
 
     PlayerShip(PApplet _p)
     {
@@ -24,6 +30,8 @@ public class PlayerShip
         thrusters[2] = p.loadImage("/src/img/thruster3.png");
         thrusterCycle = 0;
         laserCharge = 1000;
+        minim = new Minim(p);
+        out = minim.getLineOut();
     }
 
     public void display()
@@ -66,6 +74,7 @@ public class PlayerShip
             laserCharge -= 5;
             p.fill(128,224,255,255);
             p.rect(x+ship.width,y+ship.height/2,p.width,5);
+            out.playNote(200);
         }
 
     }

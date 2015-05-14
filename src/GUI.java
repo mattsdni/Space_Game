@@ -13,50 +13,71 @@ public class GUI extends PApplet
         PApplet.main(new String[]{"GUI"});
     }
 
-    StarField starField;
-    static PlayerShip playerShip;
-
-    PImage nebula;
-
-    PFont font;
-    String dir;
-
-    Asteroid asteroid;
 
     AudioPlayer player;
     Minim minim;
+    AudioOutput out;
+
+    static StateMachine gGameMode;
+
 
     public void setup()
     {
         size((int)(displayHeight*1.5),(int)(displayHeight*1.5/1.8), P2D);
         //size(1080,600, P2D);
         frame.setTitle("Space Game Test");
-        starField = new StarField(this, 100);
-        playerShip = new PlayerShip(this);
-        nebula = loadImage("/src/img/nebula.jpg");
-        noStroke();
-        dir = System.getProperty("user.dir");
-        font = createFont(dir + "/src/data/arialbd.ttf", 48);
-        textSize((int)(36*(width/640.0)));
-        asteroid = new Asteroid(this);
+        //nebula = loadImage("/src/img/nebula.jpg");
+
         minim = new Minim(this);
-        player = minim.loadFile("/src/sound/music.mp3", 2048);
-        player.play();
+        player = minim.loadFile("/src/sound/level1.mp3", 4096);
+        out = minim.getLineOut();
+        //player.play();
+
+        gGameMode = new StateMachine();
+
+        gGameMode.Push("mainmenu", new MainMenuState(this));
+        //gGameMode.Push("gameplay", new GamePlayState(this));
+
        // noCursor();
     }
 
     public void draw()
     {
-        background(30, 5, 35);
-        //image(nebula,0,0);
-        fill(200,200,200,100);
-
-        starField.display();
-        starField.move();
-        playerShip.display();
-        asteroid.display();
-        asteroid.checkForLaser();
-        text("Laser Charge: " +playerShip.laserCharge, 800,100);
+        if(gGameMode.mStack.isEmpty())
+        {
+            System.exit(0);
+        }
+        gGameMode.Update();
+        gGameMode.Render();
     }
+
+    public void keyPressed()
+    {
+        if(keyCode==ESC || key == ESC)
+        {
+            key = 0;
+            keyCode = 0;
+            gGameMode.Pop();
+        }
+    }
+
+    public void keyReleased()
+    {
+        if(keyCode==ESC || key == ESC)
+        {
+            key = 0;
+            keyCode = 0;
+        }
+    }
+
+    public void keyTyped()
+    {
+        if(keyCode==ESC || key == ESC)
+        {
+            key = 0;
+            keyCode = 0;
+        }
+    }
+
 
 }
